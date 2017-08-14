@@ -1,0 +1,28 @@
+* TITLE CARD
+*Test Case
+*SREF     AR        T/C       SWEEP     TAPER     
+*         |         |         |         |
+ 700.00   3.73      0.05      37.5      0.190  
+*SWET_WNG % CAMBER  TECH      TRUPPER   TRLOWER   DELCD0
+*         |         |         |         |         |
+ 1144.08  0.000     1.0000    .0000     .0000     .0000
+*SWET_FSE LENGTH    BODY L/D  SBASE     DELCD0
+*         |         |         |         |
+1474.00   73.3      9.66      12.284    .0000
+* CRUDFACTOR
+ 0.284 
+*REF_ALT  REF_MACH
+36152.    0.60
+*NAME               
+*         
+Vtail     
+*         |         |         |
+*SWET     LENGTH    TC_OR_FR  DELCD0
+235.33    8.34      .04       .0000  
+*NAME               
+*         
+Htail     
+*         |         |         |
+*SWET     LENGTH    TC_OR_FR  DELCD0
+388.72    9.73      .04       .0000  
+            
