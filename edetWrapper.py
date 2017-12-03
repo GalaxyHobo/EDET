@@ -68,7 +68,7 @@ edetInput = {'acProject': '737-700',
     
 # Establish working directory with exe...
 # Copy & paste absolute path on Local machine here within double quotes
-userExePath = "C:\AeroProgs\EDET"
+userExePath = "C:\AeroProgs\EDET\EDET"
 
 # Select number of last (highest) Machs to ship in polar plots
 # (usually the last one or two look funky and skew the x-axes) 
@@ -189,7 +189,7 @@ for index in plotMachs[:-numLastMachSkip]:
 	p1.plot(polarData[polarData[:,0]==index]
 	[:,np.array([False,False,False,True])],polarData[polarData[:,0]==index]
 	[:,np.array([False,False,True,False])],marker=next(marker), label=index)
-p1.legend(prop={'size': 10}) 
+p1.legend(title='Mach', ncol=2, prop={'size': 10}) 
 p1.grid()
 p1.set(ylabel='$C_L$',
 	xlabel='$C_D$',
@@ -200,13 +200,13 @@ p1.xaxis.label.set_size(18)
 p1.yaxis.label.set_size(18)
 
 
-# Add subplot for AOA
+# ******* Plot AOA
 p2 = fig.add_subplot(3,2,2)
 for index in plotMachs[:-numLastMachSkip]:
 	p2.plot(polarData[polarData[:,0]==index]
 	[:,np.array([False,True,False,False])],polarData[polarData[:,0]==index]
 	[:,np.array([False,False,True,False])],marker=next(marker), label=index)
-p2.legend(prop={'size': 10}) 
+p2.legend(title='Mach', ncol=2, prop={'size': 10}) 
 p2.grid()
 p2.set(ylabel='$C_L$',
 	xlabel=r'$\alpha$' + ' (deg)',
@@ -250,6 +250,26 @@ p4.xaxis.label.set_size(18)
 p4.yaxis.label.set_size(18)
 
 
+# *********** Plot L/D
+# Compute L/D. Note: this overwrites CD with L/D in fourth column
+polarData[:,3] = polarData[:,2] / polarData[:,3]
+p5 = fig.add_subplot(3,2,5)
+for index in plotMachs[:-numLastMachSkip]:
+	p5.plot(polarData[polarData[:,0]==index]
+	[:,np.array([False,False,True,False])],polarData[polarData[:,0]==index]
+	[:,np.array([False,False,False,True])],marker=next(marker), label=index)
+p5.legend(title='Mach', ncol=2, prop={'size': 10}) 
+p5.grid()
+p5.set(ylabel='$L/D$',
+	xlabel='$C_L$',
+	xlim=(0,1),
+	title=edetInput['acProject'] + ' L/D (Ref M='+ 
+   str(edetInput['refMach']) + ', Alt=' +
+	str(int(edetInput['refAltInFt'])) + ' ft)')
+p5.xaxis.label.set_size(18)
+p5.yaxis.label.set_size(18)
+
+
 # ****** Plot Re Corrn
 reList = lines[lines.index(" * ALTITUDE     MACH  DELTA_CD\n") + 1:
 	lines.index(" *MACH         ALPHA        CL        CD\n") - 3]
@@ -261,19 +281,18 @@ reData=np.array(reData)
 # Determine array of unique Mach numbers for plot
 reAlts = np.unique(reData[0:,0:1])
 # Add subplot for Re corrn 
-p5 = fig.add_subplot(3,2,5) 
+p6 = fig.add_subplot(3,2,6) 
 for index in reAlts:
-	p5.plot(reData[reData[:,0]==index]
+	p6.plot(reData[reData[:,0]==index]
 	[:,np.array([False,True,False])],reData[reData[:,0]==index]
-	[:,np.array([False,False,True])], marker=next(marker), label=int(index))
-p5.legend(prop={'size': 9})
-p5.grid()
-p5.set(ylabel=r'$\Delta$$C_{D_{RE}}$', 
+	[:,np.array([False,False,True])], marker=next(marker),label=int(index/1000))
+p6.legend(title='Altitude (1000 ft)', ncol=2, prop={'size': 10})
+p6.grid()
+p6.set(ylabel=r'$\Delta$$C_{D_{RE}}$', 
 	xlabel='$Mach$',
 	xlim=(0,1),
 	title = edetInput['acProject'] + ' Re# Correction (Ref M=' +
        str(edetInput['refMach']) + ', Alt=' +
 		str(int(edetInput['refAltInFt'])) + ' ft)')
-p5.xaxis.label.set_size(18)
-p5.yaxis.label.set_size(18)
-
+p6.xaxis.label.set_size(18)
+p6.yaxis.label.set_size(18)
