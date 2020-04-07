@@ -17,12 +17,12 @@ C
       COMMON / AERO / CDTAB(1200),CDPA(1000)
       COMMON / MISSA/ AITEK ,AR    ,CAM,CH,DB ,BODYLD,SBASE,
      1                SPI   ,SREF  ,SW25  ,TAPER,TC,VCMIN,CRUDF,
-     2                CDCTAB(40)   ,CDF(42)      ,CDFCRD(10)   ,
-     3                CDFTAB(40)   ,CDITAB(40,40),CDPTAB(40,40),
-     4                CDREF(40)    ,CF(41)       ,CL(40)       ,
-     5                CLBUF(40)    ,FF(40)       ,FR(40)       ,
-     6                EM(40)       ,RN(40)       ,SWET(41)     ,
-     7                TRU          ,TRL          ,EL(40)       ,
+     2                CDCTAB(400)   ,CDF(402)      ,CDFCRD(100)   ,
+     3                CDFTAB(400)   ,CDITAB(400,400),CDPTAB(400,400),
+     4                CDREF(400)    ,CF(401)       ,CL(400)       ,
+     5                CLBUF(400)    ,FF(400)       ,FR(400)       ,
+     6                EM(400)       ,RN(400)       ,SWET(401)     ,
+     7                TRU          ,TRL          ,EL(400)       ,
      8                ITAB  ,LAM   ,MNO   ,N     ,NCRUD
       COMMON /CONPON/ NAME(10)
       DIMENSION HTEMP(60), RECHK(60)
@@ -520,15 +520,15 @@ C      IPRINT    PRINT SWITCH
       IMPLICIT DOUBLE PRECISION ( A-H, O-Z )
       COMMON /CONPON/ NAME(10)
     
-      COMMON / MISSA/ AITEK ,AR    ,CAM,CH,DB ,BODYLD,SBASE, 
+      COMMON / MISSA/ AITEK ,AR    ,CAM,CH,DB ,BODYLD,SBASE,
      1                SPI   ,SREF  ,SW25  ,TAPER,TC,VCMIN,CRUDF,
-     2                CDCTAB(40)   ,CDF(42)      ,CDFCRD(10)   ,
-     3                CDFTAB(40)   ,CDITAB(40,40),CDPTAB(40,40),
-     4                CDREF(40)    ,CF(41)       ,CL(40)       ,
-     5                CLBUF(40)    ,FF(40)       ,FR(40)       ,
-     6                EM(40)       ,RN(40)       ,SWET(41)     ,
-     7                TRU          ,TRL          ,EL(40)       ,
-     8                ITAB  ,LAM   ,MNO   ,N     ,NCRUD 
+     2                CDCTAB(400)   ,CDF(402)      ,CDFCRD(100)   ,
+     3                CDFTAB(400)   ,CDITAB(400,400),CDPTAB(400,400),
+     4                CDREF(400)    ,CF(401)       ,CL(400)       ,
+     5                CLBUF(400)    ,FF(400)       ,FR(400)       ,
+     6                EM(400)       ,RN(400)       ,SWET(401)     ,
+     7                TRU          ,TRL          ,EL(400)       ,
+     8                ITAB  ,LAM   ,MNO   ,N     ,NCRUD
 	  PARAMETER (CONSTRADTODEG = 57.29577951)
       CHARACTER*16 NAME
   
@@ -840,15 +840,15 @@ C      *************************************************************
 CLVB      COMMON /UNITS / IU5, IU6, IU7, IU8, IU9, IU16, IU17, IU18
       DIMENSION HTEMP(60), RECHK(60)
 CLVB      COMMON / AERO / CDTAB(1200),CDPA(1000)
-      COMMON / MISSA/ AITEK ,AR    ,CAM,CH,DB ,BODYLD,SBASE, 
+      COMMON / MISSA/ AITEK ,AR    ,CAM,CH,DB ,BODYLD,SBASE,
      1                SPI   ,SREF  ,SW25  ,TAPER,TC,VCMIN,CRUDF,
-     2                CDCTAB(40)   ,CDF(42)      ,CDFCRD(10)   ,
-     3                CDFTAB(40)   ,CDITAB(40,40),CDPTAB(40,40),
-     4                CDREF(40)    ,CF(41)       ,CL(40)       ,
-     5                CLBUF(40)    ,FF(40)       ,FR(40)       ,
-     6                EM(40)       ,RN(40)       ,SWET(41)     ,
-     7                TRU          ,TRL          ,EL(40)       ,
-     8                ITAB  ,LAM   ,MNO   ,N     ,NCRUD  
+     2                CDCTAB(400)   ,CDF(402)      ,CDFCRD(100)   ,
+     3                CDFTAB(400)   ,CDITAB(400,400),CDPTAB(400,400),
+     4                CDREF(400)    ,CF(401)       ,CL(400)       ,
+     5                CLBUF(400)    ,FF(400)       ,FR(400)       ,
+     6                EM(400)       ,RN(400)       ,SWET(401)     ,
+     7                TRU          ,TRL          ,EL(400)       ,
+     8                ITAB  ,LAM   ,MNO   ,N     ,NCRUD
   
 C     WRITE HEADERS
       WRITE(7,50)
@@ -1116,7 +1116,7 @@ C      NUMCL   NUMBER OF VALID ELEMENTS IN CL ARRAY
 
       IMPLICIT DOUBLE PRECISION ( A-H, O-Z )
 	  PARAMETER (CONSTRADTODEG = 57.29577951)
-      DIMENSION CL(40)
+      DIMENSION CL(400)
   
       IF (TC .LE. 0.065) GO TO 10 
   
@@ -1136,17 +1136,17 @@ C     ROUND TO NEAREST .05
    20 CLLOP = AINT(CLDES * 20. +.5) / 20. 
   
 C     ZERO ARRAY
-      DO 30 I=1,40
+      DO 30 I=1,400
          CL(I) = 0.0D0
    30 CONTINUE
   
 C     SET UP CL ARRAY 
-      CL(1) = CLLOP - .4
+      CL(1) = CLLOP - .6
       IF (CL(1) .LT. 0.) CL(1) = 0.0
-      DO 40 I = 2,15
+      DO 40 I = 2,46
          NUMCL = I
-         CL(I) = CL(I - 1) + .05
-         IF ((CL(I) - CLDES) .GT. 0.3) GO TO 50 
+         CL(I) = CL(I - 1) + .02
+         IF ((CL(I) - CLDES) .GT. 0.6) GO TO 50 
    40 CONTINUE
    50 RETURN
   
